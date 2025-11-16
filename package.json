@@ -1,0 +1,19 @@
+{
+  "name": "wholesale-car-inventory",
+  "version": "1.0.0",
+  "description": "Wholesale car dealer inventory maintenance system",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js"
+  },
+  "keywords": ["inventory", "car", "dealer"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6",
+    "cors": "^2.8.5"
+  }
+}
+

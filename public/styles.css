@@ -1,0 +1,565 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+nav {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.nav-btn {
+    padding: 10px 20px;
+    border: 2px solid white;
+    background: transparent;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.nav-btn.active {
+    background: white;
+    color: #667eea;
+}
+
+.section {
+    padding: 40px;
+}
+
+.section h2 {
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: #333;
+    border-bottom: 3px solid #667eea;
+    padding-bottom: 10px;
+}
+
+.section h3 {
+    font-size: 1.5em;
+    margin: 30px 0 20px 0;
+    color: #555;
+}
+
+/* Form Container */
+.form-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+/* Form Styles */
+form {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.vehicle-form-main {
+    margin-bottom: 0;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.vin-input-group {
+    display: flex;
+    gap: 10px;
+}
+
+.vin-input-group input {
+    flex: 1;
+}
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+.btn-delete {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-delete:hover {
+    background: #c82333;
+}
+
+.btn-edit {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-edit:hover {
+    background: #218838;
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Profit Display */
+.profit-display {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    border: 2px solid #667eea;
+}
+
+.profit-display h4 {
+    margin-bottom: 15px;
+    color: #667eea;
+    font-size: 1.2em;
+}
+
+.profit-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+}
+
+.profit-item:last-child {
+    border-bottom: none;
+}
+
+.profit-item.total {
+    font-weight: 700;
+    font-size: 18px;
+    color: #667eea;
+    border-top: 2px solid #667eea;
+    padding-top: 15px;
+    margin-top: 10px;
+}
+
+.profit-margin.positive {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.profit-margin.negative {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+/* Repair Log */
+.repairs-list {
+    margin-top: 30px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.repairs-list h4 {
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.repair-item {
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    border-left: 4px solid #667eea;
+}
+
+.repair-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.repair-date {
+    font-weight: 600;
+    color: #667eea;
+}
+
+.repair-cost {
+    font-weight: 600;
+    color: #28a745;
+    font-size: 1.1em;
+}
+
+.repair-description {
+    color: #666;
+    line-height: 1.6;
+}
+
+.no-repairs,
+.no-items {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+    font-style: italic;
+}
+
+/* Sort Controls */
+.sort-controls {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.sort-controls label {
+    font-weight: 600;
+    color: #555;
+}
+
+.sort-controls select {
+    padding: 8px 15px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.sort-controls select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* Inventory Table */
+.table-container {
+    overflow-x: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.inventory-table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.inventory-table th {
+    padding: 15px 10px;
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.inventory-table tbody tr {
+    border-bottom: 1px solid #e9ecef;
+    transition: background-color 0.2s ease;
+}
+
+.inventory-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.inventory-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.inventory-table td {
+    padding: 12px 10px;
+    vertical-align: middle;
+}
+
+.inventory-table tfoot {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.inventory-table tfoot td {
+    padding: 15px 10px;
+    border-top: 2px solid #667eea;
+}
+
+.totals-row {
+    background-color: #f8f9fa !important;
+}
+
+.inventory-table .positive {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.inventory-table .negative {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.inventory-table td button {
+    margin-right: 5px;
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+/* CarGurus Sidebar */
+.cargurus-sidebar {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 20px;
+    border: 2px solid #667eea;
+}
+
+.cargurus-sidebar h3 {
+    margin: 0 0 20px 0;
+    color: #667eea;
+    font-size: 1.3em;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 10px;
+}
+
+.cargurus-link-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cargurus-instruction {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.cargurus-link-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-align: center;
+}
+
+.cargurus-link-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    color: white;
+}
+
+.cargurus-link-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.cargurus-link-btn:hover svg {
+    transform: translateX(3px);
+}
+
+.cargurus-info {
+    font-size: 13px;
+    color: #555;
+    margin: 0;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
+
+.cargurus-info strong {
+    color: #667eea;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        margin: 10px;
+        border-radius: 8px;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    .section {
+        padding: 20px;
+    }
+
+    .form-container {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .vin-input-group {
+        flex-direction: column;
+    }
+
+    .cargurus-sidebar {
+        position: relative;
+        top: 0;
+        margin-top: 20px;
+    }
+
+    .table-container {
+        overflow-x: scroll;
+    }
+
+    .inventory-table {
+        font-size: 12px;
+    }
+
+    .inventory-table th,
+    .inventory-table td {
+        padding: 8px 5px;
+    }
+}
+
+/* Loading states */
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #764ba2;
+}
+
