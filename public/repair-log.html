@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repair Log</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+        }
+        .repair-log-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .repair-log-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .repair-log-header h1 {
+            margin: 0 0 15px 0;
+            color: #333;
+        }
+        .vehicle-info-box {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #667eea;
+        }
+        .vehicle-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .vehicle-info-grid div {
+            display: flex;
+            gap: 10px;
+        }
+        .vehicle-info-grid strong {
+            color: #555;
+            min-width: 60px;
+        }
+        .repair-form-inline {
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .repair-form-inline .form-group {
+            flex: 1;
+            margin: 0;
+        }
+        .repair-form-inline .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+        .repair-form-inline .form-group input,
+        .repair-form-inline .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .repair-form-inline .form-group textarea {
+            min-width: 300px;
+            resize: vertical;
+        }
+        .repair-form-inline .form-group:last-child {
+            flex: 0 0 auto;
+        }
+        .repair-form-inline button {
+            padding: 10px 25px;
+            height: fit-content;
+        }
+        .repairs-list {
+            margin-top: 30px;
+        }
+        .repairs-list h4 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .repairs-table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        .repairs-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .repairs-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .repairs-table th {
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+        }
+        .repairs-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+        .repairs-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        .repairs-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .repair-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .link-edit {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .link-edit:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+        .link-delete {
+            color: #dc3545;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .link-delete:hover {
+            color: #c82333;
+            text-decoration: underline;
+        }
+        .repair-description-cell {
+            max-width: 300px;
+            word-wrap: break-word;
+        }
+        .editable-cell {
+            cursor: pointer;
+            position: relative;
+            min-width: 80px;
+        }
+        .editable-cell:hover {
+            background-color: #f0f7ff;
+        }
+        .editable-cell.editing {
+            background-color: #fff3cd;
+            padding: 0;
+        }
+        .editable-cell input,
+        .editable-cell textarea {
+            width: 100%;
+            border: 2px solid #667eea;
+            border-radius: 4px;
+            padding: 6px 8px;
+            font-size: 14px;
+            font-family: inherit;
+            background: white;
+            box-sizing: border-box;
+        }
+        .editable-cell input[type="date"] {
+            min-width: 140px;
+        }
+        .editable-cell textarea {
+            min-width: 250px;
+            min-height: 40px;
+            resize: vertical;
+        }
+        .editable-cell .cell-display {
+            padding: 4px 8px;
+            display: block;
+        }
+        .editable-cell .cell-edit {
+            display: none;
+        }
+        .editable-cell.editing .cell-display {
+            display: none;
+        }
+        .editable-cell.editing .cell-edit {
+            display: block;
+        }
+        .total-cost-cell {
+            font-weight: 600;
+            color: #28a745;
+            background-color: #f0f0f0;
+        }
+        .repairs-table tfoot {
+            background-color: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+        .repairs-table tfoot td {
+            padding: 15px;
+            border-top: 3px solid rgba(255,255,255,0.3);
+            text-align: right;
+        }
+        .repairs-table tfoot td:first-child {
+            text-align: left;
+        }
+        .repairs-table tfoot td:nth-child(2) {
+            text-align: left;
+        }
+        .repairs-table tfoot td:last-child {
+            text-align: center;
+        }
+        .new-repair-row {
+            background-color: #f8f9fa;
+        }
+        .new-repair-row:hover {
+            background-color: #e9ecef;
+        }
+        .no-repairs {
+            text-align: center;
+            color: #999;
+            padding: 20px;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="repair-log-container">
+        <div class="repair-log-header">
+            <h1>Repair Log</h1>
+            <div class="vehicle-info-box">
+                <div class="vehicle-info-grid">
+                    <div><strong>VIN:</strong> <span id="modalVin">-</span></div>
+                    <div><strong>Make:</strong> <span id="modalMake">-</span></div>
+                    <div><strong>Model:</strong> <span id="modalModel">-</span></div>
+                    <div><strong>Year:</strong> <span id="modalYear">-</span></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="repairsList" class="repairs-list">
+            <h4>Repair History</h4>
+            <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Click on any cell to edit. Press Enter to save and move to next cell. Tab to move between cells.</p>
+            <div class="repairs-table-container">
+                <table class="repairs-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Part Cost</th>
+                            <th>Labor Cost</th>
+                            <th>Total Cost</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="repairsContainer">
+                        <tr>
+                            <td colspan="6" class="loading" style="text-align: center; padding: 20px;">Loading repairs...</td>
+                        </tr>
+                    </tbody>
+                    <tfoot id="repairsTotals">
+                        <!-- Totals row will be inserted here -->
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="repair-log.js"></script>
+</body>
+</html>
+

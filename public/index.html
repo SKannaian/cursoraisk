@@ -7,20 +7,108 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
+    <!-- Login/Signup Section -->
+    <div id="authSection" class="auth-container">
+        <div class="auth-header" style="position: absolute; top: 20px; right: 20px; display: flex; gap: 10px;">
+            <button id="homeSignInBtn" class="nav-btn" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white;">Sign In</button>
+            <button id="homeAdminBtn" class="nav-btn admin-btn" style="background: rgba(255, 193, 7, 0.2); border: 2px solid #ffc107; color: white;">Admin</button>
+        </div>
+        <div class="auth-box">
+            <h2>Wholesale Car Inventory System</h2>
+            <!-- Login Form -->
+            <div id="loginFormContainer">
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="loginUsername">Username</label>
+                        <input type="text" id="loginUsername" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" name="password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Login</button>
+                    <div id="loginError" class="error-message"></div>
+                </form>
+            </div>
+            <!-- Admin Login Form (hidden by default) -->
+            <div id="adminLoginContainer" style="display: none;">
+                <h3 style="margin-bottom: 20px;">Admin Login</h3>
+                <form id="adminLoginForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="adminLoginUsername">Username</label>
+                        <input type="text" id="adminLoginUsername" name="adminLoginUsername" required placeholder="Enter admin username">
+                    </div>
+                    <div class="form-group">
+                        <label for="adminLoginPassword">Password</label>
+                        <input type="password" id="adminLoginPassword" name="adminLoginPassword" required placeholder="Enter admin password">
+                    </div>
+                    <button type="submit" class="btn-primary">Login as Admin</button>
+                    <button type="button" class="btn-secondary" id="backToHomeBtn" style="margin-left: 10px;">Back to Home</button>
+                    <div id="adminLoginError" class="error-message" style="margin-top: 15px;"></div>
+                </form>
+            </div>
+            
+            <!-- Admin Invite Form (hidden by default, shown after admin login) -->
+            <div id="adminInviteContainer" style="display: none;">
+                <h3 style="margin-bottom: 20px;">Admin - Invite User</h3>
+                <form id="adminInviteForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="adminEmail">Email Address *</label>
+                        <input type="email" id="adminEmail" name="adminEmail" required placeholder="user@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="adminCompanyName">Company Name *</label>
+                        <input type="text" id="adminCompanyName" name="adminCompanyName" required placeholder="Enter company name">
+                    </div>
+                    <button type="submit" class="btn-primary">Send Invitation Email</button>
+                    <button type="button" class="btn-secondary" id="adminLogoutBtn" style="margin-left: 10px;">Logout Admin</button>
+                    <div id="adminInviteMessage" class="error-message" style="margin-top: 15px;"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application (hidden until authenticated) -->
+    <div id="mainApp" class="container" style="display: none;">
         <header>
-            <h1>Wholesale Car Inventory System</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <h1 style="margin: 0;">Wholesale Car Inventory System</h1>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button id="adminBtn" class="nav-btn admin-btn" style="display: none;">Admin</button>
+                    <button id="logoutBtn" class="nav-btn logout-btn">Logout</button>
+                </div>
+            </div>
             <nav>
-                <button id="viewInventoryBtn" class="nav-btn">View Inventory</button>
-                <button id="addVehicleBtn" class="nav-btn active">Add Vehicle</button>
+                <button id="addVehicleBtn" class="nav-btn">Add Vehicle</button>
+                <button id="viewInventoryBtn" class="nav-btn active">View Inventory</button>
+                <button id="analyticsBtn" class="nav-btn">Analytics</button>
             </nav>
         </header>
 
         <!-- Add Vehicle Form -->
-        <section id="addVehicleSection" class="section">
+        <section id="addVehicleSection" class="section" style="display: none;">
             <h2>Add New Vehicle</h2>
-            <div class="form-container">
-                <form id="vehicleForm" class="vehicle-form-main">
+            
+            <!-- CarGurus Link Section - Top Row -->
+            <div class="cargurus-top-row">
+                <div class="cargurus-sidebar-top">
+                    <h3>Price Comparison</h3>
+                    <div id="cargurusLinkContainer" class="cargurus-link-container">
+                        <p class="cargurus-instruction">Enter vehicle details to see similar listings on CarGurus</p>
+                        <div id="cargurusLink" style="display: none;">
+                            <a id="cargurusLinkAnchor" href="#" target="_blank" class="cargurus-link-btn">
+                                <span>View Similar Vehicles on CarGurus</span>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 0L9.41 1.41L3.83 7H16V9H3.83L9.41 14.59L8 16L0 8L8 0Z" fill="currentColor"/>
+                                </svg>
+                            </a>
+                            <p class="cargurus-info">Searching for: <strong id="cargurusSearchText">-</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <form id="vehicleForm" class="vehicle-form-full">
                 <div class="form-group">
                     <label for="vin">VIN Number *</label>
                     <div class="vin-input-group">
@@ -56,6 +144,24 @@
                     <div class="form-group">
                         <label for="miles">Miles *</label>
                         <input type="number" id="miles" name="miles" min="0" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="accident_history">Accident History</label>
+                        <select id="accident_history" name="accident_history">
+                            <option value="">Select</option>
+                            <option value="None">None</option>
+                            <option value="Minor">Minor</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Major">Major</option>
+                            <option value="Salvage">Salvage</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="number_of_owners">Number of Owners</label>
+                        <input type="number" id="number_of_owners" name="number_of_owners" min="0" placeholder="e.g., 1, 2, 3">
                     </div>
                 </div>
 
@@ -96,9 +202,19 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="market_price">Market Price ($) - For Comparison</label>
-                    <input type="number" id="market_price" name="market_price" step="0.01" min="0" placeholder="Enter price from CarGurus or other site">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="market_price">Market Price ($) - For Comparison</label>
+                        <input type="number" id="market_price" name="market_price" step="0.01" min="0" placeholder="Enter price from CarGurus or other site">
+                    </div>
+                    <div class="form-group">
+                        <label for="sale_date">Sale Date</label>
+                        <input type="date" id="sale_date" name="sale_date">
+                    </div>
+                    <div class="form-group">
+                        <label for="sale_price">Sale Price ($)</label>
+                        <input type="number" id="sale_price" name="sale_price" step="0.01" min="0" placeholder="Enter sale price if sold">
+                    </div>
                 </div>
 
                 <div class="profit-display" id="profitDisplay" style="display: none;">
@@ -139,56 +255,67 @@
                 </div>
             </form>
             
-            <!-- CarGurus Link Sidebar -->
-            <div class="cargurus-sidebar">
-                <h3>Price Comparison</h3>
-                <div id="cargurusLinkContainer" class="cargurus-link-container">
-                    <p class="cargurus-instruction">Enter vehicle details to see similar listings on CarGurus</p>
-                    <div id="cargurusLink" style="display: none;">
-                        <a id="cargurusLinkAnchor" href="#" target="_blank" class="cargurus-link-btn">
-                            <span>View Similar Vehicles on CarGurus</span>
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8 0L9.41 1.41L3.83 7H16V9H3.83L9.41 14.59L8 16L0 8L8 0Z" fill="currentColor"/>
-                            </svg>
-                        </a>
-                        <p class="cargurus-info">Searching for: <strong id="cargurusSearchText">-</strong></p>
-                    </div>
-                </div>
-            </div>
-            </div>
-            
-            <!-- Repair Log Section -->
-            <div id="repairLogSection" style="display: none;">
-                <h3>Repair Log</h3>
-                <form id="repairForm">
-                    <input type="hidden" id="currentVehicleId">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="repair_date">Repair Date *</label>
-                            <input type="date" id="repair_date" name="repair_date" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="repair_cost">Cost ($) *</label>
-                            <input type="number" id="repair_cost" name="repair_cost" step="0.01" min="0" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="repair_description">Description *</label>
-                        <textarea id="repair_description" name="repair_description" rows="3" required placeholder="Describe the repair work done"></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary">Add Repair</button>
-                </form>
-
-                <div id="repairsList" class="repairs-list">
-                    <h4>Repair History</h4>
-                    <div id="repairsContainer"></div>
-                </div>
-            </div>
         </section>
 
         <!-- Inventory List View -->
-        <section id="inventorySection" class="section" style="display: none;">
+        <section id="inventorySection" class="section">
             <h2>Inventory List</h2>
+            
+            <!-- Search and Filter Controls -->
+            <div class="inventory-controls">
+                <div class="search-filter-row">
+                    <div class="search-box">
+                        <input type="text" id="inventorySearch" placeholder="Search by VIN, Make, Model, Year..." style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 6px;">
+                    </div>
+                    <div class="filter-controls">
+                        <select id="filterStatus" style="padding: 10px; border: 2px solid #ddd; border-radius: 6px;">
+                            <option value="">All Statuses</option>
+                            <option value="In Stock">In Stock</option>
+                            <option value="Sold">Sold</option>
+                            <option value="Pending Sale">Pending Sale</option>
+                            <option value="Reserved">Reserved</option>
+                        </select>
+                        <select id="filterAuctionSite" style="padding: 10px; border: 2px solid #ddd; border-radius: 6px; margin-left: 10px;">
+                            <option value="">All Auction Sites</option>
+                            <option value="Carmax">Carmax</option>
+                            <option value="OpenLane">OpenLane</option>
+                            <option value="Manheim">Manheim</option>
+                            <option value="Adesa">Adesa</option>
+                            <option value="CoPart">CoPart</option>
+                            <option value="ACVAuction">ACVAuction</option>
+                            <option value="AutoNation">AutoNation</option>
+                            <option value="Avdaa">Avdaa</option>
+                        </select>
+                        <input type="date" id="filterDateFrom" placeholder="Date From" style="padding: 10px; border: 2px solid #ddd; border-radius: 6px; margin-left: 10px;">
+                        <input type="date" id="filterDateTo" placeholder="Date To" style="padding: 10px; border: 2px solid #ddd; border-radius: 6px; margin-left: 10px;">
+                    </div>
+                </div>
+                <div class="inventory-actions">
+                    <button id="exportCsvBtn" class="btn-secondary" style="margin-right: 10px;">Export to CSV</button>
+                    <button id="bulkActionsBtn" class="btn-secondary" style="display: none;">Bulk Actions</button>
+                    <div id="bulkActionsPanel" style="display: none; margin-top: 10px; padding: 15px; background: #f8f9fa; border-radius: 6px;">
+                        <select id="bulkActionSelect" style="padding: 8px; margin-right: 10px;">
+                            <option value="">Select Action</option>
+                            <option value="update_status">Update Status</option>
+                            <option value="update_market_price">Update Market Price</option>
+                            <option value="delete">Delete Selected</option>
+                        </select>
+                        <input type="text" id="bulkActionValue" placeholder="Value (for updates)" style="padding: 8px; margin-right: 10px; display: none;">
+                        <button id="applyBulkActionBtn" class="btn-primary" style="margin-right: 10px;">Apply</button>
+                        <button id="cancelBulkActionBtn" class="btn-secondary">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Alerts Banner -->
+            <div id="alertsBanner" class="alerts-banner" style="display: none;">
+                <div class="alerts-header">
+                    <span id="alertsCount">0</span> unread alerts
+                    <button id="viewAllAlertsBtn" class="btn-link">View All</button>
+                    <button id="markAllReadBtn" class="btn-link">Mark All Read</button>
+                </div>
+                <div id="alertsList" class="alerts-list"></div>
+            </div>
             
             <!-- Sort Options -->
             <div class="sort-controls">
@@ -209,39 +336,518 @@
             <div class="table-container">
                 <table id="inventoryTable" class="inventory-table">
                     <thead>
-                        <tr>
-                            <th>Year</th>
+                       <tr>
+                           <th><input type="checkbox" id="selectAllCheckbox" title="Select All"></th>
+                           <th>Image</th>
+                           <th>Edit</th>
+                           <th>Delete</th>
+                           <th>Repair Log</th>
+                           <th>Status</th>
+                           <th>Year</th>
                             <th>Make</th>
                             <th>Model</th>
                             <th>VIN</th>
+                            <th>Color</th>
                             <th>Miles</th>
+                            <th>Accident</th>
+                            <th>Owners</th>
                             <th>Date Bought</th>
                             <th>Auction Site</th>
                             <th>Buy Price</th>
                             <th>Auction Fees</th>
                             <th>Transport Fee</th>
+                            <th>Repair Cost</th>
                             <th>Total Cost</th>
+                            <th>Sale Price</th>
                             <th>Market Price</th>
+                            <th>Sale Date</th>
                             <th>Profit</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+                            <th>Notes</th>
+                       </tr>
+                   </thead>
                     <tbody id="inventoryTableBody">
                         <!-- Inventory rows will be loaded here -->
                     </tbody>
-                    <tfoot>
-                        <tr class="totals-row">
-                            <td colspan="7"><strong>Totals:</strong></td>
-                            <td id="totalBuyPrice">$0.00</td>
-                            <td id="totalAuctionFees">$0.00</td>
-                            <td id="totalTransportFee">$0.00</td>
-                            <td id="totalCost">$0.00</td>
-                            <td colspan="3"></td>
-                        </tr>
-                    </tfoot>
+                   <tfoot>
+                       <tr class="totals-row">
+                           <td colspan="7"><strong>Totals:</strong></td>
+                           <td id="totalBuyPrice">$0.00</td>
+                           <td id="totalAuctionFees">$0.00</td>
+                           <td id="totalTransportFee">$0.00</td>
+                           <td id="totalRepairCost">$0.00</td>
+                           <td id="totalCost">$0.00</td>
+                           <td id="totalSalePrice">$0.00</td>
+                           <td id="totalMarketPrice">$0.00</td>
+                           <td></td>
+                           <td id="totalProfit">$0.00</td>
+                           <td></td>
+                       </tr>
+                   </tfoot>
                 </table>
             </div>
         </section>
+
+        <!-- Analytics Section -->
+        <section id="analyticsSection" class="section" style="display: none;">
+            <h2>Analytics Dashboard</h2>
+            
+            <!-- Filters -->
+            <div class="analytics-filters">
+                <div class="filter-group">
+                    <label for="filterVin">Filter by VIN:</label>
+                    <select id="filterVin" class="filter-input">
+                        <option value="">All VINs</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterYear">Filter by Year:</label>
+                    <select id="filterYear" class="filter-input">
+                        <option value="">All Years</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterMake">Filter by Make:</label>
+                    <select id="filterMake" class="filter-input">
+                        <option value="">All Makes</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterModel">Filter by Model:</label>
+                    <select id="filterModel" class="filter-input">
+                        <option value="">All Models</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <button type="button" id="clearFiltersBtn" class="btn-secondary">Clear Filters</button>
+                </div>
+            </div>
+            
+            <!-- Dashboard Tabs -->
+            <div class="dashboard-container">
+                <div class="dashboard-tabs">
+                    <button class="dashboard-tab active" data-tab="overview">Overview</button>
+                    <button class="dashboard-tab" data-tab="sales-history">Sales History</button>
+                    <button class="dashboard-tab" data-tab="financial">Financial Summary</button>
+                    <button class="dashboard-tab" data-tab="profit">Profit Analysis</button>
+                    <button class="dashboard-tab" data-tab="performance">Performance</button>
+                </div>
+                
+                <!-- Overview Tab -->
+                <div id="tab-overview" class="dashboard-tab-content active">
+                    <!-- Summary Cards -->
+                    <div class="analytics-cards">
+                        <div class="analytics-card">
+                            <h3>Total Inventory Value</h3>
+                            <div class="card-value" id="totalInventoryValue">$0.00</div>
+                            <p class="card-description">Sum of all vehicle costs</p>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>Total Vehicles</h3>
+                            <div class="card-value" id="totalVehicles">0</div>
+                            <p class="card-description">Vehicles in inventory</p>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>Sold Vehicles</h3>
+                            <div class="card-value" id="soldVehicles">0</div>
+                            <p class="card-description">Vehicles sold</p>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>Unsold Vehicles</h3>
+                            <div class="card-value" id="unsoldVehicles">0</div>
+                            <p class="card-description">Vehicles available</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Top Performers -->
+                    <div class="analytics-section">
+                        <h3>Top Performing Vehicles</h3>
+                        <div id="topPerformersTable" class="analytics-table-container">
+                            <table class="analytics-table">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Vehicle</th>
+                                        <th>Total Cost</th>
+                                        <th>Sale/Market Price</th>
+                                        <th>Profit</th>
+                                        <th>Profit %</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="topPerformersBody">
+                                    <tr><td colspan="6" style="text-align: center; padding: 20px;">No data available</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sales History Tab -->
+                <div id="tab-sales-history" class="dashboard-tab-content">
+                    <!-- Pie Chart for Aged Sales -->
+                    <div class="analytics-section">
+                        <h3>Aged Outstanding Sales Distribution</h3>
+                        <div class="chart-container">
+                            <div class="pie-chart-wrapper">
+                                <svg id="agedSalesPieChart" width="300" height="300" viewBox="0 0 300 300">
+                                    <circle cx="150" cy="150" r="120" fill="none" stroke="#e0e0e0" stroke-width="40"/>
+                                </svg>
+                                <div class="pie-chart-legend" id="pieChartLegend"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Best Sales -->
+                    <div class="analytics-section">
+                        <h3>Best Sales</h3>
+                        <div class="sales-comparison-grid">
+                            <div class="sales-table-container">
+                                <h4>Best by Profit</h4>
+                                <table class="analytics-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Vehicle</th>
+                                            <th>Sale Price</th>
+                                            <th>Total Cost</th>
+                                            <th>Profit</th>
+                                            <th>Profit %</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bestSalesByProfitBody">
+                                        <tr><td colspan="5" style="text-align: center; padding: 20px;">No data available</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="sales-table-container">
+                                <h4>Best by Age (Quickest Sales)</h4>
+                                <table class="analytics-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Vehicle</th>
+                                            <th>Date Bought</th>
+                                            <th>Sale Date</th>
+                                            <th>Days to Sell</th>
+                                            <th>Profit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bestSalesByAgeBody">
+                                        <tr><td colspan="5" style="text-align: center; padding: 20px;">No data available</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Worst Sales -->
+                    <div class="analytics-section">
+                        <h3>Worst Sales</h3>
+                        <div class="sales-comparison-grid">
+                            <div class="sales-table-container">
+                                <h4>Worst by Profit</h4>
+                                <table class="analytics-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Vehicle</th>
+                                            <th>Sale Price</th>
+                                            <th>Total Cost</th>
+                                            <th>Loss</th>
+                                            <th>Loss %</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="worstSalesByProfitBody">
+                                        <tr><td colspan="5" style="text-align: center; padding: 20px;">No data available</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="sales-table-container">
+                                <h4>Worst by Age (Slowest Sales)</h4>
+                                <table class="analytics-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Vehicle</th>
+                                            <th>Date Bought</th>
+                                            <th>Sale Date</th>
+                                            <th>Days to Sell</th>
+                                            <th>Profit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="worstSalesByAgeBody">
+                                        <tr><td colspan="5" style="text-align: center; padding: 20px;">No data available</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Aged Outstanding Sales Table -->
+                    <div class="analytics-section">
+                        <h3>All Outstanding Sales</h3>
+                        <p style="color: #666; margin-bottom: 20px;">Vehicles that have not been sold, sorted by days in inventory</p>
+                        <div class="analytics-table-container">
+                            <table class="analytics-table">
+                                <thead>
+                                    <tr>
+                                        <th>Vehicle</th>
+                                        <th>VIN</th>
+                                        <th>Date Bought</th>
+                                        <th>Days in Inventory</th>
+                                        <th>Total Cost</th>
+                                        <th>Market Price</th>
+                                        <th>Potential Profit</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="agedSalesBody">
+                                    <tr><td colspan="7" style="text-align: center; padding: 20px;">No data available</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Financial Summary Tab -->
+                <div id="tab-financial" class="dashboard-tab-content">
+                    <div class="analytics-section">
+                        <h3>Financial Summary</h3>
+                        <div class="analytics-grid">
+                            <div class="analytics-item">
+                                <span class="label">Total Investment:</span>
+                                <span class="value" id="totalInvestment">$0.00</span>
+                            </div>
+                            <div class="analytics-item">
+                                <span class="label">Total Repair Costs:</span>
+                                <span class="value" id="totalRepairCostsAnalytics">$0.00</span>
+                            </div>
+                            <div class="analytics-item">
+                                <span class="label">Total Sales Revenue:</span>
+                                <span class="value positive" id="totalSalesRevenue">$0.00</span>
+                            </div>
+                            <div class="analytics-item">
+                                <span class="label">Total Profit:</span>
+                                <span class="value" id="totalProfitAnalytics">$0.00</span>
+                            </div>
+                            <div class="analytics-item">
+                                <span class="label">Average Profit per Vehicle:</span>
+                                <span class="value" id="avgProfitPerVehicle">$0.00</span>
+                            </div>
+                            <div class="analytics-item">
+                                <span class="label">Average Repair Cost:</span>
+                                <span class="value" id="avgRepairCost">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Auction Site Analysis -->
+                    <div class="analytics-section">
+                        <h3>Vehicles by Auction Site</h3>
+                        <div id="auctionSiteChart" class="analytics-chart-container">
+                            <table class="analytics-table">
+                                <thead>
+                                    <tr>
+                                        <th>Auction Site</th>
+                                        <th>Count</th>
+                                        <th>Total Investment</th>
+                                        <th>Total Profit</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="auctionSiteBody">
+                                    <tr><td colspan="4" style="text-align: center; padding: 20px;">No data available</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Repair Cost Analysis -->
+                    <div class="analytics-section">
+                        <h3>Repair Cost Analysis</h3>
+                        <div class="analytics-grid">
+                            <div class="analytics-item">
+                                <span class="label">Vehicles with Repairs:</span>
+                                <span class="value" id="vehiclesWithRepairs">0</span>
+                            </div>
+                            <div class="analytics-item">
+                                <span class="label">Vehicles without Repairs:</span>
+                                <span class="value" id="vehiclesWithoutRepairs">0</span>
+                            </div>
+                            <div class="analytics-item">
+                                <span class="label">Highest Repair Cost:</span>
+                                <span class="value" id="highestRepairCost">$0.00</span>
+                            </div>
+                            <div class="analytics-item">
+                                <span class="label">Repair Cost as % of Total:</span>
+                                <span class="value" id="repairCostPercentage">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Profit Analysis Tab -->
+                <div id="tab-profit" class="dashboard-tab-content">
+                    <div class="analytics-section">
+                        <h3>Profit Analysis</h3>
+                        <div class="analytics-grid">
+                            <div class="analytics-item">
+                                <span class="label">Vehicles with Profit:</span>
+                                <span class="value positive" id="vehiclesWithProfit">0</span>
+                            </div>
+                            <div class="analytics-item">
+                                <span class="label">Vehicles with Loss:</span>
+                                <span class="value negative" id="vehiclesWithLoss">0</span>
+                            </div>
+                            <div class="analytics-item">
+                                <span class="label">Highest Profit:</span>
+                                <span class="value positive" id="highestProfit">$0.00</span>
+                            </div>
+                            <div class="analytics-item">
+                                <span class="label">Lowest Profit:</span>
+                                <span class="value" id="lowestProfit">$0.00</span>
+                            </div>
+                            <div class="analytics-item">
+                                <span class="label">Average Profit Margin:</span>
+                                <span class="value" id="avgProfitMargin">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Performance Tab -->
+                <div id="tab-performance" class="dashboard-tab-content">
+                    <div class="analytics-section">
+                        <h3>Performance Metrics</h3>
+                        <div class="analytics-grid">
+                            <div class="analytics-item">
+                                <span class="label">Total Vehicles:</span>
+                                <span class="value" id="totalVehiclesPerformance">0</span>
+                            </div>
+                            <div class="analytics-item">
+                                <span class="label">Sold Vehicles:</span>
+                                <span class="value positive" id="soldVehiclesPerformance">0</span>
+                            </div>
+                            <div class="analytics-item">
+                                <span class="label">Unsold Vehicles:</span>
+                                <span class="value" id="unsoldVehiclesPerformance">0</span>
+                            </div>
+                            <div class="analytics-item">
+                                <span class="label">Sales Rate:</span>
+                                <span class="value" id="salesRate">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Section -->
+        <section id="adminSection" class="section" style="display: none;">
+            <h2>Admin Panel</h2>
+            <div class="admin-container">
+                <div class="admin-card">
+                    <h3>Invite New User</h3>
+                    <form id="inviteUserForm" class="admin-form">
+                        <div class="form-group">
+                            <label for="inviteEmail">Email Address *</label>
+                            <input type="email" id="inviteEmail" name="inviteEmail" required placeholder="user@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="inviteCompanyName">Company Name *</label>
+                            <input type="text" id="inviteCompanyName" name="inviteCompanyName" required placeholder="Enter company name">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Send Invitation Email</button>
+                        </div>
+                        <div id="inviteMessage" class="invite-message" style="margin-top: 15px;"></div>
+                    </form>
+                </div>
+                
+                <div class="admin-card">
+                    <h3>User Management</h3>
+                    <div id="usersList" class="users-list">
+                        <p>Loading users...</p>
+                    </div>
+                    <div class="admin-actions">
+                        <button id="refreshUsersBtn" class="btn-primary">Refresh Users</button>
+                    </div>
+                </div>
+                
+                <div class="admin-card">
+                    <h3>System Information</h3>
+                    <div id="systemInfo" class="system-info">
+                        <p><strong>Database:</strong> SQLite</p>
+                        <p><strong>Server:</strong> Node.js/Express</p>
+                        <p><strong>Version:</strong> 1.0.0</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Expenses Modal -->
+    <div id="expensesModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
+            <span class="close-modal" onclick="closeExpensesModal()">&times;</span>
+            <h2>Additional Expenses</h2>
+            <div id="expensesVehicleInfo" style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 6px;"></div>
+            <form id="expenseForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expense_date">Date *</label>
+                        <input type="date" id="expense_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="expense_category">Category *</label>
+                        <select id="expense_category" required>
+                            <option value="">Select Category</option>
+                            <option value="Storage">Storage</option>
+                            <option value="Insurance">Insurance</option>
+                            <option value="Detailing">Detailing</option>
+                            <option value="Advertising">Advertising</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="expense_description">Description *</label>
+                        <input type="text" id="expense_description" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="expense_amount">Amount ($) *</label>
+                        <input type="number" id="expense_amount" step="0.01" min="0" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Add Expense</button>
+                    <button type="button" class="btn-secondary" onclick="closeExpensesModal()">Close</button>
+                </div>
+            </form>
+            <div id="expensesList" style="margin-top: 20px;">
+                <h3>Expense History</h3>
+                <table class="expenses-table" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: #667eea; color: white;">
+                            <th style="padding: 10px;">Date</th>
+                            <th style="padding: 10px;">Category</th>
+                            <th style="padding: 10px;">Description</th>
+                            <th style="padding: 10px;">Amount</th>
+                            <th style="padding: 10px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expensesTableBody"></tbody>
+                    <tfoot id="expensesTotals"></tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alerts Modal -->
+    <div id="alertsModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 700px;">
+            <span class="close-modal" onclick="closeAlertsModal()">&times;</span>
+            <h2>Alerts & Reminders</h2>
+            <div id="alertsModalContent">
+                <div style="margin-bottom: 15px;">
+                    <button id="showUnreadOnlyBtn" class="btn-secondary">Show Unread Only</button>
+                    <button id="markAllReadModalBtn" class="btn-secondary" style="margin-left: 10px;">Mark All Read</button>
+                </div>
+                <div id="alertsModalList"></div>
+            </div>
+        </div>
     </div>
 
     <script src="app.js"></script>
